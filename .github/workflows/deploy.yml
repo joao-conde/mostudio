@@ -10,11 +10,11 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm install
       - run: npm run build
-      - run: ls
+      - run: ls dist
       - uses: s0/git-publish-subdir-action@v2.6.0
         env:
           REPO: self
           BRANCH: gh-pages
-          FOLDER: build/
+          FOLDER: dist/
           MESSAGE: "{sha} {msg}"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,5 +1,5 @@
 import SiteHeader from "@/components/sections/SiteHeader";
-import Hero from "@/components/sections/Hero";
+import ServicesHero from "@/components/sections/ServicesHero";
 import Services from "@/components/sections/Services";
 import Gallery from "@/components/sections/Gallery";
 import Testimonials from "@/components/sections/Testimonials";
@@ -27,7 +27,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
       <main>
-        <Hero />
+        <ServicesHero />
         <Services />
         <Gallery />
         <Testimonials />

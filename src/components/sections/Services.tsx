@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import imgTrial from "@/assets/gallery3.jpg";
-import imgLesson from "@/assets/gallery2.jpg";
-import imgEvent from "@/assets/gallery1.jpg";
+import { Link } from "react-router-dom";
+import socialMakeupImg from "@/assets/social-makeup.jpg";
+import brideMakeupImg from "@/assets/bride-makeup.jpg";
+import workshopImg from "@/assets/workshop-makeup.jpg";
 
 function Section({
   eyebrow,
@@ -28,16 +29,18 @@ function Section({
         <p className="text-[12px] uppercase tracking-[0.25em] text-muted-foreground mb-2">{eyebrow}</p>
         <h3 className="font-display text-3xl md:text-4xl mb-4">{title}</h3>
         <p className="text-muted-foreground mb-6 max-w-prose">{body}</p>
-        <a href={href}>
+        <Link to={href}>
           <Button variant="secondary" className="hover-scale">
             {cta}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
-        </a>
+        </Link>
       </div>
-      <div className="bg-background/80 border-2 border-border p-3 md:p-4 shadow-sm" style={{ boxShadow: "var(--shadow-elegant)" }}>
-        <img src={image} alt={`${title} example look`} className="w-full h-72 md:h-80 object-cover" loading="lazy" />
-      </div>
+      <Link to={href} className="cursor-pointer">
+        <div className="bg-background/80 border-2 border-border p-3 md:p-4 shadow-sm hover:shadow-lg transition-shadow" style={{ boxShadow: "var(--shadow-elegant)" }}>
+          <img src={image} alt={`${title} example look`} className="w-full h-72 md:h-80 object-cover" loading="lazy" />
+        </div>
+      </Link>
     </article>
   );
 }
@@ -50,29 +53,29 @@ export default function Services() {
       <div className="container">
         <div className="space-y-16">
           <Section
-            eyebrow="A dress rehearsal for the big day"
-            title={t('services.bridal.title')}
-            body={t('services.bridal.desc')}
-            cta={t('services.bridal.cta')}
-            href="#booking"
-            image={imgTrial}
+            eyebrow="For special occasions and events"
+            title={t('services.social.title')}
+            body={t('services.social.desc')}
+            cta={t('services.social.cta')}
+            href="/service/social-makeup"
+            image={socialMakeupImg}
           />
           <Section
             reverse
-            eyebrow="A personalized experience"
-            title={t('services.editorial.title')}
-            body={t('services.editorial.desc')}
-            cta={t('services.editorial.cta')}
-            href="#booking"
-            image={imgLesson}
+            eyebrow="A dress rehearsal for the big day"
+            title={t('services.bride.title')}
+            body={t('services.bride.desc')}
+            cta={t('services.bride.cta')}
+            href="/service/bride-makeup"
+            image={brideMakeupImg}
           />
           <Section
-            eyebrow="Effortless beauty for every occasion"
-            title={t('services.event.title')}
-            body={t('services.event.desc')}
-            cta={t('services.event.cta')}
-            href="#booking"
-            image={imgEvent}
+            eyebrow="Learn the art of makeup"
+            title={t('services.workshop.title')}
+            body={t('services.workshop.desc')}
+            cta={t('services.workshop.cta')}
+            href="/service/self-makeup-workshop"
+            image={workshopImg}
           />
         </div>
       </div>

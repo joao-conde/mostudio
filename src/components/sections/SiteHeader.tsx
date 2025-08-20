@@ -7,9 +7,9 @@ export default function SiteHeader() {
   
   const navItems = [
     { label: t("nav.home"), href: "#home" },
+    { label: t("nav.about"), href: "#about" },
     { label: t("nav.services"), href: "#services" },
     { label: t("nav.portfolio"), href: "#gallery" },
-    { label: t("nav.about"), href: "#about" },
     { label: t("nav.inquire"), href: "#booking" },
   ];
 

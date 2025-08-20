@@ -1,4 +1,5 @@
 import { useLanguage } from "@/contexts/LanguageContext";
+import artistPortrait from "@/assets/artist-portrait.jpg";
 
 export default function About() {
   const { t } = useLanguage();
@@ -31,7 +32,7 @@ export default function About() {
           <div className="relative">
             <div className="aspect-[4/5] bg-secondary/30 rounded-lg overflow-hidden">
               <img 
-                src="/api/placeholder/400/500" 
+                src={artistPortrait} 
                 alt="Portrait of makeup artist"
                 className="w-full h-full object-cover"
               />

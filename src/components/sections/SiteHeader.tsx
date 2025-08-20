@@ -1,13 +1,18 @@
 import { Button } from "@/components/ui/button";
-
-const navItems = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#gallery" },
-  { label: "Inquire", href: "#booking" },
-];
+import { LanguageToggle } from "@/components/ui/language-toggle";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteHeader() {
+  const { t } = useLanguage();
+  
+  const navItems = [
+    { label: t("nav.home"), href: "#home" },
+    { label: t("nav.services"), href: "#services" },
+    { label: t("nav.portfolio"), href: "#gallery" },
+    { label: t("nav.about"), href: "#about" },
+    { label: t("nav.inquire"), href: "#booking" },
+  ];
+
   return (
     <header className="sticky top-0 z-40 bg-secondary/80 backdrop-blur supports-[backdrop-filter]:bg-secondary/60 border-b">
       <div className="container flex h-12 md:h-14 items-center justify-between">
@@ -22,8 +27,9 @@ export default function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
+          <LanguageToggle />
           <a href="#booking">
-            <Button className="hover-scale" size="sm">Book now</Button>
+            <Button className="hover-scale" size="sm">{t("nav.bookNow")}</Button>
           </a>
         </div>
       </div>

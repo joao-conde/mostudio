@@ -2,6 +2,7 @@ import SiteHeader from "@/components/sections/SiteHeader";
 import ServicesHero from "@/components/sections/ServicesHero";
 import Services from "@/components/sections/Services";
 import Gallery from "@/components/sections/Gallery";
+import About from "@/components/sections/About";
 import Testimonials from "@/components/sections/Testimonials";
 import BookingCTA from "@/components/sections/BookingCTA";
 import SiteFooter from "@/components/sections/SiteFooter";
@@ -30,6 +31,7 @@ const Index = () => {
         <ServicesHero />
         <Services />
         <Gallery />
+        <About />
         <Testimonials />
         <BookingCTA />
       </main>

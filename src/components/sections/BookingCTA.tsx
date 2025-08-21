@@ -3,21 +3,41 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
+import emailjs from '@emailjs/browser';
 
 export default function BookingCTA() {
   const { t } = useLanguage();
-  const [service, setService] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const EMAILJS_SERVICE_ID = 'condado-software-website';
+  const EMAILJS_TEMPLATE_ID = 'main';
+  const EMAILJS_PUBLIC_KEY = '7O3LhuBrPQinMDKTd';
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const name = data.get("name");
-    toast.success(t('booking.success').replace('{name}', name as string || "there"));
-    e.currentTarget.reset();
-    setService("");
+    setIsLoading(true);
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const name = data.get("name") as string;
+
+    try {
+      await emailjs.sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        form,
+        EMAILJS_PUBLIC_KEY
+      );
+      toast.success(t('booking.success').replace('{name}', name || "there"));
+      form.reset();
+    } catch (error) {
+      console.error('EmailJS error:', error);
+      toast.error(t('booking.error') || 'Failed to send message. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -28,51 +48,19 @@ export default function BookingCTA() {
           <p className="text-muted-foreground">{t('booking.subtitle')}</p>
         </div>
         <form onSubmit={onSubmit} className="grid gap-6 max-w-2xl">
-          <div className="grid sm:grid-cols-2 gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="name">{t('booking.name')}</Label>
-              <Input id="name" name="name" placeholder={t('booking.placeholder.name')} required />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="email">{t('booking.email')}</Label>
-              <Input id="email" name="email" type="email" placeholder={t('booking.placeholder.email')} required />
-            </div>
-          </div>
-          
-          <div className="grid sm:grid-cols-2 gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="phone">{t('booking.phone')}</Label>
-              <Input id="phone" name="phone" type="tel" placeholder={t('booking.placeholder.phone')} />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="date">{t('booking.date')}</Label>
-              <Input id="date" name="date" type="date" required />
-            </div>
-          </div>
-          
-          <div className="grid sm:grid-cols-2 gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="time">{t('booking.time')}</Label>
-              <Input id="time" name="time" type="time" />
-            </div>
-            <div className="grid gap-2">
-              <Label>{t('booking.service')}</Label>
-              <Select value={service} onValueChange={setService} name="service" required>
-                <SelectTrigger>
-                  <SelectValue placeholder="Choose a service" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="bridal">{t('services.bridal.title')}</SelectItem>
-                  <SelectItem value="editorial">{t('services.editorial.title')}</SelectItem>
-                  <SelectItem value="event">{t('services.event.title')}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="grid gap-2">
+            <Label htmlFor="name">{t('booking.name')}</Label>
+            <Input id="name" name="name" placeholder={t('booking.placeholder.name')} required />
           </div>
           
           <div className="grid gap-2">
-            <Label htmlFor="location">{t('booking.location')}</Label>
-            <Input id="location" name="location" placeholder={t('booking.placeholder.location')} />
+            <Label htmlFor="email">{t('booking.email')}</Label>
+            <Input id="email" name="email" type="email" placeholder={t('booking.placeholder.email')} required />
+          </div>
+          
+          <div className="grid gap-2">
+            <Label htmlFor="phone">{t('booking.phone')}</Label>
+            <Input id="phone" name="phone" type="tel" placeholder={t('booking.placeholder.phone')} required />
           </div>
           
           <div className="grid gap-2">
@@ -86,7 +74,9 @@ export default function BookingCTA() {
           </div>
           
           <div className="flex gap-3">
-            <Button type="submit" className="hover-scale">{t('booking.submit')}</Button>
+            <Button type="submit" disabled={isLoading} className="hover-scale">
+              {isLoading ? t('booking.sending') || 'Sending...' : t('booking.submit')}
+            </Button>
             <a href="#services" className="story-link self-center text-sm text-muted-foreground">{t('booking.services')}</a>
           </div>
         </form>
